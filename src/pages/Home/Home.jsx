@@ -7,6 +7,7 @@ import Modal from "../../components/Modal/Modal";
 import AddBalanceForm from "../../components/Forms/AddBalanceForm/AddBalanceForm";
 import PieChart from "../../components/PieChart/PieChart";
 import BarChart from "../../components/BarChart/BarChart";
+import ExportToCSV from "../../components/Export/ExportToCSV";
 
 export default function Home() {
   const [balance, setBalance] = useState(0);
@@ -131,12 +132,15 @@ export default function Home() {
     }
   }, [balance]);
 
+  const exportButton =
+    expenseList && expenseList.length > 0 ? (
+      <ExportToCSV expenseList={expenseList} />
+    ) : null;
+
   return (
     <div className={styles.container}>
       <h1>Expense Tracker</h1>
-
       {/* Cards and pie chart wrapper */}
-
       <div className={styles.cardsWrapper}>
         <Card
           title="Wallet Balance"
@@ -179,6 +183,7 @@ export default function Home() {
           title="Recent Transactions"
           balance={balance}
           setBalance={setBalance}
+          exportButton={exportButton}
         />
 
         <BarChart
@@ -192,7 +197,6 @@ export default function Home() {
           ]}
         />
       </div>
-
       {/* Modals */}
       <Modal isOpen={isOpenExpense} setIsOpen={setIsOpenExpense}>
         <ExpenseForm
@@ -203,7 +207,6 @@ export default function Home() {
           balance={balance}
         />
       </Modal>
-
       <Modal isOpen={isOpenBalance} setIsOpen={setIsOpenBalance}>
         <AddBalanceForm setIsOpen={setIsOpenBalance} setBalance={setBalance} />
       </Modal>
